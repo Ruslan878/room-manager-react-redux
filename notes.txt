@@ -1,0 +1,23 @@
+React
+1 Официальная документация facebook.github.io/react/docs
+2 React.js курс для начинающих gitbooks.io
+
+React Router
+1 Официальная документация github.com
+2 Роутинг в react-приложениях gitbooks.io
+
+Redux
+1 Официальная документация redux.js.org
+2 Официальная документация (Рус) rajdee.gitbooks.io
+3 Getting Started with Redux egghead.io
+4 Redux without profanity (summary of how we write redux apps) gitbooks.io
+
+Дополнительные инструменты на которые нужно обратить внимание
+1 Immutable.js facebook.github.io/immutable-js
+2 redux-immutable github.com
+3 Normalizr github.com
+4 Reselect github.com
+5 react-router-redux github.com
+6 redux-actions github.com
+7 redux-api-middleware github.com
+8 awesome-redux (a lot of usefull info, just take a look) github.com
