@@ -1,19 +1,22 @@
 import React, { Component, PropTypes }  from 'react';
 import Room from '../room/Room';
+import AddRoom from './addRoom';
 import { ListGroup, Col } from 'react-bootstrap';
 
 class RoomsList extends Component {
 
     render () {
         var rooms = this.props.rooms;
-        var roomsTemplate = rooms.map(function(room, index){
-            return (
-                <Room key={room.Id} room={room} />
-            )
-        });
+        var onRoomClick = this.props.onRoomClick;
+
+        var roomsTemplate = rooms.map(room =>
+                <Room key={room.Id} room={room} onClick={function(){}} />
+        );
 
         return (
             <Col md={4}>
+                <h2>Rooms</h2>
+                <AddRoom/>
                 <ListGroup>
                     {roomsTemplate}             
                 </ListGroup>
@@ -23,7 +26,8 @@ class RoomsList extends Component {
 }
 
 RoomsList.propTypes = {
-        rooms: PropTypes.array.isRequired
+        rooms: PropTypes.array.isRequired,
+        onRoomClick: PropTypes.func.isRequired
 }
 
 RoomsList.defaultProps = {
