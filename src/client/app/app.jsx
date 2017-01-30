@@ -2,9 +2,9 @@ import { render } from "react-dom";
 import Container from "./components/container/container";
 import { Row } from 'react-bootstrap';
 import PageHeader from "react-bootstrap/lib/PageHeader";
-import RoomsList from "./components/rooms/rooms";
-import MembersList from "./components/members/members";
-import Login from "./components/login/login";
+import RoomsList from "./components/rooms";
+import MembersList from "./components/members";
+import Login from "./components/login";
 
 var all_rooms = [
   {

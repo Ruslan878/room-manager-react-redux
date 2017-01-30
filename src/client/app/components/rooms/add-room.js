@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { InputGroup, FormGroup, Button, FormControl } from 'react-bootstrap';
 
 class AddRoom extends Component {

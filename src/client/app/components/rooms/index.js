@@ -1,6 +1,6 @@
 import React, { Component, PropTypes }  from 'react';
-import Room from '../room/Room';
-import AddRoom from './addRoom';
+import Room from '../room';
+import AddRoom from './add-room';
 import { ListGroup, Col } from 'react-bootstrap';
 
 class RoomsList extends Component {

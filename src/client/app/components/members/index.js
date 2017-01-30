@@ -1,7 +1,7 @@
 import React, { Component, PropTypes }  from 'react';
 import { ListGroup, Col } from 'react-bootstrap';
 
-import Member from '../member/member';
+import Member from '../member';
 
 class MembersList extends Component {
 
