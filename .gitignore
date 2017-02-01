@@ -1,3 +1,8 @@
 node_modules
 src/client/public/app.bundle.js
 npm-debug.log
+
+src/server/RoomManager/bin
+src/server/RoomManager/obj
+src/server/packages/
+src/server/.vs/
