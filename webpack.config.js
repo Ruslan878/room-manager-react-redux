@@ -5,7 +5,10 @@ var BUILD_DIR = path.resolve(__dirname, "src/client/public");
 var APP_DIR = path.resolve(__dirname, "src/client/app");
 
 module.exports = {
-    entry: APP_DIR + "/index.js",
+    entry: [
+        'whatwg-fetch', 
+        APP_DIR + "/index.js"
+    ],
     output: {
         path: BUILD_DIR,
         filename: "bundle.js"
@@ -33,5 +36,16 @@ module.exports = {
         new webpack.ProvidePlugin({
             "React": "react"
         })
-    ]
+    ],
+
+    devServer: {
+        historyApiFallback: true,
+        stats: 'minimal',
+        proxy: {
+            '/api': {
+                target: 'http://localhost:7879/',
+                secure: false
+            }
+        }
+    }
 };

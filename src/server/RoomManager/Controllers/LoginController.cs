@@ -19,7 +19,7 @@ namespace RoomManager.Controllers
             //}
 
             //Emulate  Authentication
-            return Ok(new { auth_token = "fake_user_auth_token_REACT+REDUX_APP_00xx11"});
+            return Ok(new { auth_token = "fake_user_auth_token_REACT+REDUX_APP_00xx11", userName = "Some User Name"});
         }
     }
 }

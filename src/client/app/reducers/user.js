@@ -5,22 +5,20 @@ import {
   LOGOUT_SUCCESS
 } from '../constants/User'
 
-const initialState = JSON.parse(window.localStorage.getItem('rr_user')) || {}
+const initialState = { isAuthenticated: !!localStorage.getItem('auth_token')} || {}
 
 export default function userstate(state = initialState, action) {
 
   switch (action.type) {
 
     case LOGIN_REQUEST:
-      // TODO
-      return state
+      return { ...state, email: action.user.Email, loading: true };
 
     case LOGIN_SUCCESS:
-      return {...state, name: action.payload.name, isAuthenticated: action.payload.isAuthenticated}
+      return {...state, authToken: action.response.auth_token, name:action.response.userName, isAuthenticated: true, loading: false}
 
     case LOGIN_FAIL:
-      // TODO
-      return state
+      return {...state, isAuthenticated: false, loading: false}
 
     case LOGOUT_SUCCESS:
       // TODO

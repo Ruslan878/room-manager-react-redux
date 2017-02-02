@@ -21,12 +21,14 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "webpack && webpack-dev-server --inline --hot --content-base src/client/public/",
+    "start": "webpack && webpack-dev-server --inline --hot --content-base src/client/public/ ",
     "build": "webpack"
   },
   "dependencies": {
     "axios": "^0.13.1",
     "babel-polyfill": "^6.9.1",
+    "es6-promise": "^4.0.5",
+    "isomorphic-fetch": "^2.2.1",
     "react": "^15.2.1",
     "react-addons-css-transition-group": "^15.3.1",
     "react-bootstrap": "^0.30.3",
@@ -34,7 +36,9 @@
     "react-redux": "^4.4.6",
     "react-router": "^2.6.0",
     "redux": "^3.6.0",
-    "redux-devtools-extension": "^1.0.0"
+    "redux-api-middleware": "^1.0.2",
+    "redux-devtools-extension": "^1.0.0",
+    "whatwg-fetch": "^2.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",

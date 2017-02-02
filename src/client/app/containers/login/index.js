@@ -2,18 +2,23 @@ import React, { Component } from 'react';
 import { Form, FormGroup, FormControl, ControlLabel, Checkbox, Button, Col } from 'react-bootstrap';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as UserActions from '../../actions/UserActions'
+import { login } from '../../actions/UserActions'
+
 
 export class Login extends Component {
     handleSubmit(e) {
-        e.preventDefault()
-        this.props.actions.login({name: e.target.elements[0].value})
+        e.preventDefault();
+        let user = {
+                    Email: e.target.elements[0].value,
+                    Password: e.target.elements[1].value
+            }
+        this.props.login(user);
     }
 
     render(){
         return (
             <Col mdOffset={3} md={6}>
-                <Form horizontal onSubmit={::this.handleSubmit}>
+                <Form horizontal onSubmit={this.handleSubmit.bind(this)}>
                     <FormGroup controlId="formHorizontalEmail">
                     <Col componentClass={ControlLabel} md={4}>
                         Login
@@ -51,14 +56,12 @@ export class Login extends Component {
     }
 }
 
-function mapStateToProps() {
+function mapStateToProps(data) {
   return {}
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(UserActions, dispatch)
-  }
+  return { login: bindActionCreators(login, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
