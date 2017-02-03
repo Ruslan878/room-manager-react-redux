@@ -1,8 +1,20 @@
 import React, { Component, PropTypes } from 'react'
 import { Form, InputGroup, FormGroup, Button, ButtonToolbar, 
     ButtonGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { goBack } from 'react-router-redux'
 
 class RoomDetails extends Component {
+
+    onDelete = (e) => {
+        e.preventDefault();
+    }
+
+    onGoBack = (e) => {
+        this.props.goBack();
+    }
+
 
     render () {
         return(
@@ -12,7 +24,7 @@ class RoomDetails extends Component {
                         <InputGroup>
                             <h3>ROOM DETAILS</h3>
                             <InputGroup.Button>
-                                <Button bsStyle="danger" onClick={this.props.onDelete}>Delete</Button>
+                                <Button bsStyle="danger" onClick={this.onDelete}>Delete</Button>
                             </InputGroup.Button>
                         </InputGroup>
                     </FormGroup>
@@ -33,7 +45,7 @@ class RoomDetails extends Component {
                         </Col>
                     </FormGroup>
                      <ButtonToolbar>
-                        <Button onClick={this.props.onGoBack}>Go Back</Button>
+                        <Button onClick={this.onGoBack}>Go Back</Button>
                         <Button onClick={this.props.onSave}>Save</Button>
                     </ButtonToolbar>
                 </Form>
@@ -42,10 +54,12 @@ class RoomDetails extends Component {
     }
 }
 
-// RoomDetails.propTypes = {
-//     onGoBack: PropTypes.func.isRequired,
-//     onSave: PropTypes.func.isRequired,
-//     onDelete: PropTypes.func.isRequired
-// }
+function mapStateToProps(state) {
+  return {}
+}
 
-export default RoomDetails;
+function mapDispatchToProps(dispatch) {
+  return { goBack: bindActionCreators(goBack , dispatch)}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoomDetails);

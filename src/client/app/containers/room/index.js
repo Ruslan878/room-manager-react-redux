@@ -20,7 +20,7 @@ export class Room extends Component {
         );
 
         return (
-                <ListGroupItem href="#" onClick={onClick} active={selected}>
+                <ListGroupItem onClick={onClick} active={selected}>
                     <Row>
                         <Col md={6} mdOffset={2}>
                             <span>{room.Name}</span>
