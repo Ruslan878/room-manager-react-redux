@@ -42,10 +42,10 @@ class RoomDetails extends Component {
     }
 }
 
-RoomDetails.propTypes = {
-    onGoBack: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired
-}
+// RoomDetails.propTypes = {
+//     onGoBack: PropTypes.func.isRequired,
+//     onSave: PropTypes.func.isRequired,
+//     onDelete: PropTypes.func.isRequired
+// }
 
 export default RoomDetails;

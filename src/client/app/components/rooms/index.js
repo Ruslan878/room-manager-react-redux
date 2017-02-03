@@ -100,7 +100,6 @@ let all_mambers = [
 class RoomsList extends Component {
 
     render () {
-        {/*var rooms = this.props.rooms;*/}
         var rooms = all_rooms;
         var onRoomClick = this.props.onRoomClick;
 
@@ -123,15 +122,4 @@ class RoomsList extends Component {
     }
 }
 
-{/*
-RoomsList.propTypes = {
-        rooms: PropTypes.array.isRequired,
-        onRoomClick: PropTypes.func.isRequired
-}
-
-
-RoomsList.defaultProps = {
-      rooms: []
-}
-*/}
 export default RoomsList;

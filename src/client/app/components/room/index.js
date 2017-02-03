@@ -3,15 +3,9 @@ import {ListGroupItem, Badge, Button, Glyphicon, Row,
         Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-import { goToDetails } from '../../actions/room-actions'
+import { LinkContainer } from 'react-router-bootstrap'
 
 export class Room extends Component {
-
-    goToDetails = () => {
-        let roomId = this.props.room.Id;
-        this.props.goToDetails(roomId);
-    }
 
     render () {
         let room = this.props.room;
@@ -32,7 +26,11 @@ export class Room extends Component {
                         </Col>
                         <Col md={2}>
                             <OverlayTrigger placement="right" overlay={tooltip}>
-                                <Button bsSize={"xs"} onClick={this.goToDetails}><Glyphicon glyph="arrow-right" /></Button>
+                                <LinkContainer to={{ pathname: `/details/${room.Id}` }}>
+                                    <Button bsSize={"xs"}>
+                                        <Glyphicon glyph="arrow-right" />
+                                    </Button>
+                                </LinkContainer>
                             </OverlayTrigger>
                         </Col>
                     </Row>
@@ -61,7 +59,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return { goToDetails: bindActionCreators(goToDetails, dispatch)}
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room)
