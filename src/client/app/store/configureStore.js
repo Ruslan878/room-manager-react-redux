@@ -4,14 +4,16 @@ import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import { apiMiddleware } from 'redux-api-middleware'
 import { rootReducer } from '../reducers'
-import { redirect } from '../middlewares/redirect'
+import { browserHistory } from 'react-router'
+import { routerMiddleware } from 'react-router-redux'
+
 
 export default function configureStore() {
   const store = composeWithDevTools(
     applyMiddleware(thunkMiddleware),
     applyMiddleware(createLogger()),
     applyMiddleware(apiMiddleware),
-    applyMiddleware(redirect)
+    applyMiddleware(routerMiddleware(browserHistory))  
   )(createStore)(rootReducer)
 
   if (module.hot) {

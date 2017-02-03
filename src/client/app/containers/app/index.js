@@ -9,8 +9,6 @@ export default class App extends Component {
         <PageHeader>Room Manager</PageHeader>
         <Container>
                 {this.props.children}
-                {/*<MembersList members = {all_mambers}/>*/}
-                {/*<RoomsList rooms = {all_rooms} onRoomClick = {function(i){var t=i}}/>*/}
         </Container>
       </div>
     )

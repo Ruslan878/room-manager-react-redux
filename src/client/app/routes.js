@@ -12,8 +12,8 @@ export const routes = (
   <div>
     <Route path='/' component={App}>
       <IndexRedirect to='rooms' /> 
-      <Route path='/rooms' component={requireAuthentication(Rooms)} />
-      <Route path='/login' component={LoginContainer} />
+      <Route path='rooms' component={requireAuthentication(Rooms)} />
+      <Route path='login' component={LoginContainer} />
       <Route path='/details/:id' component={RoomDetails} />
     </Route>
     <Route path='*' component={NotFound} />

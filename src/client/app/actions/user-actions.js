@@ -1,7 +1,7 @@
 import { LOGIN_REQUEST, LOGIN_FAIL, LOGIN_SUCCESS, 
          LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAIL } from '../constants/User'
 import { checkStatus, parseJSON}  from '../middlewares/response-handler'
-import { redirect } from './routing-actions'
+import { push } from 'react-router-redux'
 
 export function loginSuccess(response) {
   return {
@@ -44,7 +44,7 @@ export function login (user) {
       .then(function(data) {
         dispatch(loginSuccess(data));
         localStorage.setItem('auth_token', data.auth_token);
-        dispatch(redirect('/rooms'));
+        dispatch(push('/rooms'));
       })
       .catch(function(error) {
         console.log('request failed', error)
