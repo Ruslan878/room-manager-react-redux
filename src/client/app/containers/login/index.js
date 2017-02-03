@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, FormControl, ControlLabel, Checkbox, Button, Col } from 'react-bootstrap';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { login } from '../../actions/UserActions'
+import { login } from '../../actions/user-actions'
+import Login from '../../components/login'
 
-
-export class Login extends Component {
-    handleSubmit(e) {
+export class LoginContainer extends Component {
+    handleSubmit = (e) =>  {
         e.preventDefault();
         let user = {
                     Email: e.target.elements[0].value,
@@ -17,46 +16,12 @@ export class Login extends Component {
 
     render(){
         return (
-            <Col mdOffset={3} md={6}>
-                <Form horizontal onSubmit={this.handleSubmit.bind(this)}>
-                    <FormGroup controlId="formHorizontalEmail">
-                    <Col componentClass={ControlLabel} md={4}>
-                        Login
-                    </Col>
-                    <Col md={6}>
-                        <FormControl type="text" placeholder="Login" />
-                    </Col>
-                    </FormGroup>
-
-                    <FormGroup controlId="formHorizontalPassword">
-                    <Col componentClass={ControlLabel} md={4}>
-                        Password
-                    </Col>
-                    <Col md={6}>
-                        <FormControl type="password" placeholder="Password" />
-                    </Col>
-                    </FormGroup>
-
-                    <FormGroup>
-                    <Col mdOffset={4} md={6}>
-                        <Checkbox>Remember me</Checkbox>
-                    </Col>
-                    </FormGroup>
-
-                    <FormGroup>
-                    <Col mdOffset={4} md={6}>
-                        <Button type="submit">
-                        Sign in
-                        </Button>
-                    </Col>
-                    </FormGroup>
-                </Form>
-            </Col>
+            <Login handleSubmit={this.handleSubmit}/>
         )
     }
 }
 
-function mapStateToProps(data) {
+function mapStateToProps(state) {
   return {}
 }
 
@@ -64,4 +29,4 @@ function mapDispatchToProps(dispatch) {
   return { login: bindActionCreators(login, dispatch)}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)

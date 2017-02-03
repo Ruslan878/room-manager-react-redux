@@ -1,9 +1,7 @@
-import { CALL_API } from 'redux-api-middleware'
-
 import { LOGIN_REQUEST, LOGIN_FAIL, LOGIN_SUCCESS, 
          LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAIL } from '../constants/User'
-import { ROUTING } from '../constants/Routing'
 import { checkStatus, parseJSON}  from '../middlewares/response-handler'
+import { redirect } from './routing-actions'
 
 export function loginSuccess(response) {
   return {
@@ -23,16 +21,6 @@ export function loginRequest(user) {
   return {
     type: LOGIN_REQUEST,
     user
-  }
-}
-
-export function redirect() {
-  return {
-        type: ROUTING,
-        payload: {
-          method: 'replace',
-          nextUrl: '/rooms'
-        }
   }
 }
 
@@ -56,7 +44,7 @@ export function login (user) {
       .then(function(data) {
         dispatch(loginSuccess(data));
         localStorage.setItem('auth_token', data.auth_token);
-        dispatch(redirect());
+        dispatch(redirect('/rooms'));
       })
       .catch(function(error) {
         console.log('request failed', error)

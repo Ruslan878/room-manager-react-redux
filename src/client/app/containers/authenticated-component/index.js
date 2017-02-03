@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ROUTING } from '../../constants/Routing'
+import { redirect } from '../../actions/routing-actions'
 
 export default function requireAuthentication(Component) {
 
@@ -13,13 +13,7 @@ export default function requireAuthentication(Component) {
     }
     checkAuth(user) {
       if (!user.isAuthenticated) {
-        this.props.dispatch({
-          type: ROUTING,
-          payload: {
-            method: 'replace',
-            nextUrl: '/login'
-          }
-        })
+        this.props.dispatch(redirect('/login'))
       }
     }
     render() {

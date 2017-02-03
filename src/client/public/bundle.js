@@ -42145,14 +42145,12 @@
 	  switch (action.type) {
 
 	    case _User.LOGIN_REQUEST:
-	      return _extends({}, state, { loading: true });
+	      return _extends({}, state, { email: action.user.Email, loading: true });
 
 	    case _User.LOGIN_SUCCESS:
-	      localStorage.setItem('auth_token', action.payload.auth_token);
-	      return _extends({}, state, { authToken: action.user.auth_token, isAuthenticated: true, loading: false });
+	      return _extends({}, state, { authToken: action.response.auth_token, name: action.response.userName, isAuthenticated: true, loading: false });
 
 	    case _User.LOGIN_FAIL:
-	      // TODO
 	      return _extends({}, state, { isAuthenticated: false, loading: false });
 
 	    case _User.LOGOUT_SUCCESS:
@@ -42248,15 +42246,15 @@
 
 	var _login2 = _interopRequireDefault(_login);
 
-	var _notFound = __webpack_require__(931);
+	var _notFound = __webpack_require__(933);
 
 	var _notFound2 = _interopRequireDefault(_notFound);
 
-	var _roomDetails = __webpack_require__(932);
+	var _roomDetails = __webpack_require__(934);
 
 	var _roomDetails2 = _interopRequireDefault(_roomDetails);
 
-	var _authenticatedComponent = __webpack_require__(933);
+	var _authenticatedComponent = __webpack_require__(935);
 
 	var _authenticatedComponent2 = _interopRequireDefault(_authenticatedComponent);
 
@@ -42271,7 +42269,7 @@
 	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'rooms' }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/rooms', component: (0, _authenticatedComponent2.default)(_rooms2.default) }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/details', component: _roomDetails2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/details/:id', component: _roomDetails2.default })
 	  ),
 	  _react2.default.createElement(_reactRouter.Route, { path: '*', component: _notFound2.default })
 	);
@@ -61273,9 +61271,19 @@
 	    _inherits(Room, _Component);
 
 	    function Room() {
+	        var _ref;
+
+	        var _temp, _this, _ret;
+
 	        _classCallCheck(this, Room);
 
-	        return _possibleConstructorReturn(this, (Room.__proto__ || Object.getPrototypeOf(Room)).apply(this, arguments));
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Room.__proto__ || Object.getPrototypeOf(Room)).call.apply(_ref, [this].concat(args))), _this), _this.goToDetails = function () {
+	            var room = _this.props.room;
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
 	    _createClass(Room, [{
@@ -61284,21 +61292,55 @@
 	            var room = this.props.room;
 	            var onClick = this.props.onClick;
 	            var selected = this.props.selected;
+	            var tooltip = _react2.default.createElement(
+	                _reactBootstrap.Tooltip,
+	                { id: 'room-details' },
+	                _react2.default.createElement(
+	                    'strong',
+	                    null,
+	                    ' Go to details.'
+	                )
+	            );
 
 	            return _react2.default.createElement(
 	                _reactBootstrap.ListGroupItem,
 	                { href: '#', onClick: onClick, active: selected },
 	                _react2.default.createElement(
-	                    'span',
+	                    _reactBootstrap.Row,
 	                    null,
-	                    room.Name
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    null,
-	                    ' (',
-	                    room.MembersCount,
-	                    ')'
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Col,
+	                        { md: 6, mdOffset: 2 },
+	                        _react2.default.createElement(
+	                            'span',
+	                            null,
+	                            room.Name
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Col,
+	                        { md: 2 },
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Badge,
+	                            null,
+	                            ' (',
+	                            room.MembersCount,
+	                            ')'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Col,
+	                        { md: 2 },
+	                        _react2.default.createElement(
+	                            _reactBootstrap.OverlayTrigger,
+	                            { placement: 'right', overlay: tooltip },
+	                            _react2.default.createElement(
+	                                _reactBootstrap.Button,
+	                                { bsSize: "xs", onClick: this.goToDetails },
+	                                _react2.default.createElement(_reactBootstrap.Glyphicon, { glyph: 'arrow-right' })
+	                            )
+	                        )
+	                    )
 	                )
 	            );
 	        }
@@ -61583,7 +61625,7 @@
 
 	var _reactRedux = __webpack_require__(539);
 
-	var _UserActions = __webpack_require__(930);
+	var _userActions = __webpack_require__(930);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -61606,9 +61648,11 @@
 	        key: 'handleSubmit',
 	        value: function handleSubmit(e) {
 	            e.preventDefault();
-	            this.props.login({
+	            var user = {
 	                Email: e.target.elements[0].value,
-	                Password: e.target.elements[1].value });
+	                Password: e.target.elements[1].value
+	            };
+	            this.props.login(user);
 	        }
 	    }, {
 	        key: 'render',
@@ -61681,17 +61725,12 @@
 	    return Login;
 	}(_react.Component);
 
-	function mapStateToProps(data) {
+	function mapStateToProps(state) {
 	    return {};
 	}
 
 	function mapDispatchToProps(dispatch) {
-	    return {
-	        //actions: bindActionCreators(login, dispatch)
-	        login: function login(data) {
-	            dispatch((0, _UserActions.login)(data));
-	        }
-	    };
+	    return { login: (0, _redux.bindActionCreators)(_userActions.login, dispatch) };
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Login);
@@ -61705,77 +61744,112 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.requestAuth = requestAuth;
-	exports.responseAuthSuccess = responseAuthSuccess;
-	exports.responseAuthFail = responseAuthFail;
+	exports.loginSuccess = loginSuccess;
+	exports.loginError = loginError;
+	exports.loginRequest = loginRequest;
 	exports.login = login;
-
-	var _reduxApiMiddleware = __webpack_require__(576);
 
 	var _User = __webpack_require__(668);
 
 	var _Routing = __webpack_require__(670);
 
-	//action creators
+	var _responseHandler = __webpack_require__(931);
 
+	var _routingActions = __webpack_require__(932);
 
-	/*eslint-disable*/
-	function requestAuth(user) {
+	function loginSuccess(response) {
+	  return {
+	    type: _User.LOGIN_SUCCESS,
+	    response: response
+	  };
+	}
+
+	function loginError(error) {
+	  return {
+	    type: _User.LOGIN_FAIL,
+	    error: error
+	  };
+	}
+
+	function loginRequest(user) {
 	  return {
 	    type: _User.LOGIN_REQUEST,
 	    user: user
 	  };
 	}
 
-	function responseAuthSuccess(response) {
-	  debugger;
-	  return {
-	    type: _User.LOGIN_SUCCESS,
-	    user: {
-	      auth_token: response.auth_token
-	    }
-	  };
-	}
-
-	function responseAuthFail(response) {
-	  return {
-	    type: _User.LOGIN_FAIL,
-	    response: response
-	  };
-	}
-
-	// the async action creator
 	function login(user) {
 
-	  return function (dispatch, getState) {
+	  return function (dispatch) {
 
-	    debugger;
-	    dispatch(requestAuth(user));
+	    dispatch(loginRequest(user));
 
-	    return fetch('/api/login', {
+	    fetch('/api/login', {
 	      method: 'POST',
 	      headers: {
 	        'Content-Type': 'application/json'
 	      },
 	      body: JSON.stringify(user)
-	    }).then(function (response) {
-	      return dispatch(responseAuthSuccess(response));
-	    }, function (response) {
-	      return dispatch(responseAuthFail(response));
+	    }).then(_responseHandler.checkStatus).then(_responseHandler.parseJSON).then(function (data) {
+	      dispatch(loginSuccess(data));
+	      localStorage.setItem('auth_token', data.auth_token);
+	      dispatch((0, _routingActions.redirect)('/rooms'));
+	    }).catch(function (error) {
+	      console.log('request failed', error);
 	    });
 	  };
 	};
 
-	// [CALL_API]: {
-	//     types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL],
-	//     endpoint: '/api/login',
-	//     method: 'POST',
-	//     headers: { 'Content-Type': 'application/json' },
-	//     body: JSON.stringify(data)
-	//   }
-
 /***/ },
 /* 931 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.checkStatus = checkStatus;
+	exports.parseJSON = parseJSON;
+	function checkStatus(response) {
+	  if (response.status >= 200 && response.status < 300) {
+	    return response;
+	  } else {
+	    var error = new Error(response.statusText);
+	    error.response = response;
+	    throw error;
+	  }
+	}
+
+	function parseJSON(response) {
+	  return response.json();
+	}
+
+/***/ },
+/* 932 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.redirect = redirect;
+
+	var _Routing = __webpack_require__(670);
+
+	function redirect(nextUrl) {
+	  return {
+	    type: _Routing.ROUTING,
+	    payload: {
+	      method: 'replace',
+	      nextUrl: nextUrl
+	    }
+	  };
+	}
+
+/***/ },
+/* 933 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -61834,7 +61908,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 932 */
+/* 934 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -61903,7 +61977,7 @@
 	exports.default = RoomDetails;
 
 /***/ },
-/* 933 */
+/* 935 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
