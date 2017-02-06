@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux'
 import user from './user'
+//import room from './room'
 import { routerReducer } from 'react-router-redux'
+import reduxCrud from 'redux-crud'
 
 export const rootReducer = combineReducers({
   user,
-  routing: routerReducer
+  rooms: reduxCrud.Map.reducersFor('rooms'),
+  routing: routerReducer,  
 })

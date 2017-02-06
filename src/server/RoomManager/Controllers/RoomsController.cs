@@ -30,8 +30,8 @@ namespace RoomManager.Controllers
         // POST api/room
         public HttpResponseMessage Post(RoomModel model)
         {
-            MockDataBase.CreateRoom(model.Name);
-            return Request.CreateResponse(HttpStatusCode.Created, MockDataBase.GetRooms());
+            var createdRoom = MockDataBase.CreateRoom(model.Name);
+            return Request.CreateResponse(HttpStatusCode.Created, createdRoom);
         }
 
         // PUT api/room
@@ -42,7 +42,7 @@ namespace RoomManager.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            if (id != room.Id)
+            if (id != room.id)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }

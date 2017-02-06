@@ -12,7 +12,7 @@ export default function userstate(state = initialState, action) {
   switch (action.type) {
 
     case LOGIN_REQUEST:
-      return { ...state, email: action.user.Email, loading: true };
+      return { ...state, login: action.payload.Login, loading: true };
 
     case LOGIN_SUCCESS:
       return {...state, authToken: action.response.auth_token, name:action.response.userName, isAuthenticated: true, loading: false}

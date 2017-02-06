@@ -2,33 +2,13 @@ import { LOGIN_REQUEST, LOGIN_FAIL, LOGIN_SUCCESS,
          LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAIL } from '../constants/User'
 import { checkStatus, parseJSON}  from '../middlewares/response-handler'
 import { push } from 'react-router-redux'
+import { request, responseSuccess, responseError } from './server-communication-actions'
 
-export function loginSuccess(response) {
-  return {
-    type: LOGIN_SUCCESS,
-    response
-  }
-}
-
-export function loginError(error){
-  return {
-    type: LOGIN_FAIL,
-    error
-  }
-}
-
-export function loginRequest(user) {
-  return {
-    type: LOGIN_REQUEST,
-    user
-  }
-}
 
 export function login (user) {
 
   return dispatch => {
-
-    dispatch(loginRequest(user));
+    dispatch(request(user, LOGIN_REQUEST));
 
     fetch(
       '/api/login',
@@ -42,12 +22,12 @@ export function login (user) {
       .then(checkStatus)
       .then(parseJSON)
       .then(function(data) {
-        dispatch(loginSuccess(data));
+        dispatch(responseSuccess(data, LOGIN_SUCCESS));
         localStorage.setItem('auth_token', data.auth_token);
         dispatch(push('/rooms'));
       })
       .catch(function(error) {
-        console.log('request failed', error)
+        dispatch(responseError(error, LOGIN_FAIL));
       })
   }
 };

@@ -4,11 +4,20 @@ import { Form, InputGroup, FormGroup, Button, ButtonToolbar,
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { goBack } from 'react-router-redux'
+import actions from '../../actions/room-actions'
 
 class RoomDetails extends Component {
+    componentWillMount (){
+        this.props.actions.fetchOne(this.props.id);
+    }
+
+    onSave = (e) => {
+        e.preventDefault();
+    }
 
     onDelete = (e) => {
         e.preventDefault();
+        
     }
 
     onGoBack = (e) => {
@@ -17,6 +26,7 @@ class RoomDetails extends Component {
 
 
     render () {
+       
         return(
             <Col mdOffset={4} md={4}>
                 <Form horizontal>
@@ -46,7 +56,7 @@ class RoomDetails extends Component {
                     </FormGroup>
                      <ButtonToolbar>
                         <Button onClick={this.onGoBack}>Go Back</Button>
-                        <Button onClick={this.props.onSave}>Save</Button>
+                        <Button onClick={this.onSave}>Save</Button>
                     </ButtonToolbar>
                 </Form>
             </Col>
@@ -54,12 +64,15 @@ class RoomDetails extends Component {
     }
 }
 
-function mapStateToProps(state) {
-  return {}
+function mapStateToProps(state,ownProps) {
+  return {
+    id: ownProps.params.id
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-  return { goBack: bindActionCreators(goBack , dispatch)}
+  return { goBack: bindActionCreators(goBack , dispatch),
+           actions: bindActionCreators(actions , dispatch) }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomDetails);

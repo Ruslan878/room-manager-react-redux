@@ -20,23 +20,23 @@ export class Room extends Component {
         );
 
         return (
-                <ListGroupItem onClick={onClick} active={selected}>
-                    <Row>
-                        <Col md={6} mdOffset={2}>
-                            <span>{room.Name}</span>
-                        </Col>
-                        <Col md={2}>
-                            <Badge> ({room.MembersCount})</Badge>
-                        </Col>
-                        <Col md={2}>
-                            <OverlayTrigger placement="right" overlay={tooltip}>
-                                <Button bsSize={"xs"} onClick={this.onGoToDetails}>
-                                    <Glyphicon glyph="arrow-right" />
-                                </Button>
-                            </OverlayTrigger>
-                        </Col>
-                    </Row>
-                </ListGroupItem>
+            <ListGroupItem onClick={onClick} active={selected}>
+                <Row>
+                    <Col md={6} mdOffset={2}>
+                        <span>{room.Name}</span>
+                    </Col>
+                    <Col md={2}>
+                        <Badge> ({room.MembersCount})</Badge>
+                    </Col>
+                    <Col md={2}>
+                        <OverlayTrigger placement="right" overlay={tooltip}>
+                            <Button href="#" bsSize={"xs"} onClick={this.onGoToDetails}>
+                                <Glyphicon glyph="arrow-right" />
+                            </Button>
+                        </OverlayTrigger>
+                    </Col>
+                </Row>
+            </ListGroupItem>
         )
     }
 }

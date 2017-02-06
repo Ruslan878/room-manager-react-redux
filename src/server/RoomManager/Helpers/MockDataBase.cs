@@ -11,20 +11,20 @@ namespace RoomManager.Helpers
     public static class MockDataBase
     {
         private static List<RoomModel> rooms = new List<RoomModel> {
-            new RoomModel { Id = 1, Name = "Room 101", Description = "Small room", },
-            new RoomModel { Id = 2, Name = "Room 203", Description = "Large room"},
-            new RoomModel { Id = 3, Name = "Room 406", Description = "Meeting room"},
-            new RoomModel { Id = 4, Name = "Rest room 6 floor", Description = "Large room"},
-            new RoomModel { Id = 5, Name = "Room 1009", Description = "Large Rest room"}
+            new RoomModel { id = 1, Name = "Room 101", Description = "Small room", },
+            new RoomModel { id = 2, Name = "Room 203", Description = "Large room"},
+            new RoomModel { id = 3, Name = "Room 406", Description = "Meeting room"},
+            new RoomModel { id = 4, Name = "Rest room 6 floor", Description = "Large room"},
+            new RoomModel { id = 5, Name = "Room 1009", Description = "Large Rest room"}
         };
 
         private static List<MemberModel> members = new List<MemberModel>
         {
-            new MemberModel { Id = 1, Name = "Andrey Andreev", Order = 1 },
-            new MemberModel { Id = 2, Name = "Petr Petrov", Order = 1 },
-            new MemberModel { Id = 3, Name = "Olga Tsvetova", Order = 1 },
-            new MemberModel { Id = 4, Name = "Ali Aliev", Order = 1 },
-            new MemberModel { Id = 5, Name = "Tomas Tykver", Order = 1 }
+            new MemberModel { id = 1, Name = "Andrey Andreev", Order = 1 },
+            new MemberModel { id = 2, Name = "Petr Petrov", Order = 1 },
+            new MemberModel { id = 3, Name = "Olga Tsvetova", Order = 1 },
+            new MemberModel { id = 4, Name = "Ali Aliev", Order = 1 },
+            new MemberModel { id = 5, Name = "Tomas Tykver", Order = 1 }
         };
 
         public static void InitializeData()
@@ -38,7 +38,7 @@ namespace RoomManager.Helpers
         {
             rooms.ForEach(room =>
             {
-                var member = members.Single(mem => mem.Id == room.Id);
+                var member = members.Single(mem => mem.id == room.id);
                 room.Members.Add(member);
                 member.Room = room;
             });
@@ -54,7 +54,7 @@ namespace RoomManager.Helpers
             if (roomId != null)
             {
                 var members = ((List<MemberModel>)HttpContext.Current.Application["Members"])
-                    .Where(x => x.Room.Id == roomId).ToList();
+                    .Where(x => x.Room.id == roomId).ToList();
                 return members;
             }
             return (List<MemberModel>)HttpContext.Current.Application["Members"];
@@ -63,13 +63,13 @@ namespace RoomManager.Helpers
         public static RoomModel GetRoom(int id)
         {
             var rooms = (List<RoomModel>)HttpContext.Current.Application["Rooms"];
-            return rooms.FirstOrDefault(x => x.Id == id);
+            return rooms.FirstOrDefault(x => x.id == id);
         }
 
         public static MemberModel GetMember(int id)
         {
             var members = (List<MemberModel>)HttpContext.Current.Application["Members"];
-            return members.FirstOrDefault(x => x.Id == id);
+            return members.FirstOrDefault(x => x.id == id);
         }
 
         public static List<RoomModel> GetRooms(string filter)
@@ -83,24 +83,25 @@ namespace RoomManager.Helpers
             return rooms.Where(x => x.Name.Contains(filter, comp) || x.Description.Contains(filter, comp)).ToList();
         }
 
-        public static void CreateRoom(string name)
+        public static RoomModel CreateRoom(string name)
         {
             var rooms = (List<RoomModel>)HttpContext.Current.Application["Rooms"];
             var room = new RoomModel
             {
-                Id = rooms.Max(x => x.Id) + 1,
+                id = rooms.Max(x => x.id) + 1,
                 Name = name,
                 Description = String.Empty
             };
             rooms.Add(room);
             HttpContext.Current.Application["Rooms"] = rooms.OrderBy(x => x.Name).ToList();
+            return room;
         }
 
         public static bool CreateMember(string name, int roomId)
         {
             var members = (List<MemberModel>)HttpContext.Current.Application["Members"];
             var rooms = (List<RoomModel>)HttpContext.Current.Application["Rooms"];
-            var room = rooms.FirstOrDefault(x => x.Id == roomId);
+            var room = rooms.FirstOrDefault(x => x.id == roomId);
             if (room == null)
             {
                 return false;
@@ -108,7 +109,7 @@ namespace RoomManager.Helpers
 
             var member = new MemberModel
             {
-                Id = members.Max(x => x.Id) + 1,
+                id = members.Max(x => x.id) + 1,
                 Name = name,
                 Room = room,
                 Order = room.Members.Any() 
@@ -125,7 +126,7 @@ namespace RoomManager.Helpers
         public static void Update(RoomModel roomModel)
         {
             var rooms = (List<RoomModel>)HttpContext.Current.Application["Rooms"];
-            var room = rooms.FirstOrDefault(x => x.Id == roomModel.Id);
+            var room = rooms.FirstOrDefault(x => x.id == roomModel.id);
             if (room != null)
             {
                 room.Name = roomModel.Name;
@@ -137,7 +138,7 @@ namespace RoomManager.Helpers
         public static void Update(MemberModel memberModel)
         {
             var members = (List<MemberModel>)HttpContext.Current.Application["Members"];
-            var member = members.FirstOrDefault(x => x.Id == memberModel.Id);
+            var member = members.FirstOrDefault(x => x.id == memberModel.id);
             if (member != null)
             {
                 member.Name = memberModel.Name;
@@ -148,11 +149,11 @@ namespace RoomManager.Helpers
         public static void DeleteRoom(int id)
         {
             var rooms = (List<RoomModel>)HttpContext.Current.Application["Rooms"];
-            var room = rooms.FirstOrDefault(x => x.Id == id);
+            var room = rooms.FirstOrDefault(x => x.id == id);
             if (room != null)
             {
                 var members = (List<MemberModel>)HttpContext.Current.Application["Members"];
-                members.RemoveAll(x => x.Room.Id == room.Id);
+                members.RemoveAll(x => x.Room.id == room.id);
                 rooms.Remove(room);
                 HttpContext.Current.Application["Rooms"] = rooms;
                 HttpContext.Current.Application["Members"] = members;
@@ -162,11 +163,11 @@ namespace RoomManager.Helpers
         public static void DeleteMember(int id)
         {
             var members = (List<MemberModel>)HttpContext.Current.Application["Members"];
-            var member = members.FirstOrDefault(x => x.Id == id);
+            var member = members.FirstOrDefault(x => x.id == id);
             if (member != null)
             {
                 var rooms = (List<RoomModel>)HttpContext.Current.Application["Rooms"];
-                var room = rooms.FirstOrDefault(x => x.Id == member.Room.Id);
+                var room = rooms.FirstOrDefault(x => x.id == member.Room.id);
                 room.Members.Remove(member);
                 members.Remove(member);
                 HttpContext.Current.Application["Members"] = members;

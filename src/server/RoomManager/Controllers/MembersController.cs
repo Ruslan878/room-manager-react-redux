@@ -40,7 +40,7 @@ namespace RoomManager.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            if (id != member.Id)
+            if (id != member.id)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }

@@ -8,7 +8,7 @@ export class LoginContainer extends Component {
     handleSubmit = (e) =>  {
         e.preventDefault();
         let user = {
-                    Email: e.target.elements[0].value,
+                    Login: e.target.elements[0].value,
                     Password: e.target.elements[1].value
             }
         this.props.login(user);
